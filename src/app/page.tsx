@@ -1,9 +1,8 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import Link from "next/link";
 import Image from "next/image";
 import { db } from "~/server/db";
 
-export const dynamic = "force-dynamic";
+export const dynamic = "force-dynamic"
 const mockUrl = [
   "https://utfs.io/f/a44207b0-f7bf-4af1-9fc2-408a0420ea9b-2xgg1h.png",
   "https://utfs.io/f/3d50bf61-0bc6-43fb-85ee-1319608a585e-erwkck.JPG",
