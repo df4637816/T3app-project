@@ -1,18 +1,15 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import Image from "next/image";
 import { db } from "~/server/db";
+import { SignedIn, SignedOut } from "@clerk/nextjs";
 
 export const dynamic = "force-dynamic"
 
-
-export default async function HomePage() {
-
+async function Images(){
   const images = await db.query.images.findMany({
     orderBy:(model,{desc}) => desc(model.id)
   });
-
-  return (
-    <main className="w-full flex justify-center items-center">
+   return(
     <div className="flex flex-wrap justify-center gap-2">
       
       {
@@ -24,6 +21,21 @@ export default async function HomePage() {
         ))
       }
     </div>
+   )
+}
+
+export default async function HomePage() {
+
+  
+
+  return (
+    <main className="w-full flex justify-center items-center">
+      <SignedOut>
+        <div className="h-full w-ful text-2xl">Please sign in above</div>
+      </SignedOut>
+      <SignedIn>
+        <Images />
+      </SignedIn>
     </main>
   );
 }

@@ -8,8 +8,8 @@
 - [X] 架設基礎 ui和 mock data
 - [X] Tidy up build process 
 - [X] 確實建立一個database
-- [] 附上database到ui
-- [] 加入權限authentication
+- [X] 附上database到ui
+- [X] 加入權限authentication
 - [] 上傳圖片
 - [] error management
 - [] routing/圖片頁面
