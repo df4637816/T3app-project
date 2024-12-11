@@ -10,8 +10,8 @@
 - [X] 確實建立一個database
 - [X] 附上database到ui
 - [X] 加入權限authentication
-- [] 上傳圖片
-- [] "taint (server-only)
+- [X] 上傳圖片
+- [X] "taint (server-only)
 - [] Use Next/Image component
 - [] error management
 - [] routing/圖片頁面
