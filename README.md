@@ -11,6 +11,8 @@
 - [X] 附上database到ui
 - [X] 加入權限authentication
 - [] 上傳圖片
+- [] "taint (server-only)
+- [] Use Next/Image component
 - [] error management
 - [] routing/圖片頁面
 - [] delete button
