@@ -29,9 +29,10 @@ export const ourFileRouter = {
       console.log("Upload complete for userId:", metadata.userId);
 
       await db.insert(images).values({
-        name: file.name,
-        url: file.url,
         userId: metadata.userId,
+        name: file.name,
+        url: file.ufsUrl,
+      
       })
 
       // !!! Whatever is returned here is sent to the clientside `onClientUploadComplete` callback

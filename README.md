@@ -12,7 +12,7 @@
 - [X] 加入權限authentication
 - [X] 上傳圖片
 - [X] "taint (server-only)
-- [] Use Next/Image component
+- [X] Use Next/Image component
 - [] error management
 - [] routing/圖片頁面
 - [] delete button

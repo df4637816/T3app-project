@@ -9,17 +9,17 @@ export const dynamic = "force-dynamic"
 
 async function Images(){
    
-    const images =await getMyImages();
+    const images = await getMyImages();
  
    return(
-    <div className="flex flex-wrap justify-center gap-2">
+    <div className="flex flex-wrap justify-center gap-4">
       
       {
         images.map((image)=>(
-            <div className="flex flex-col h-48 w-48" key={image.id}>
+            <div className="flex flex-col w-[250px] h-[250px] " key={image.id}>
               <Image  priority={true} src={image.url} 
               alt={image.name} 
-              style={{objectFit: "contain"}}
+              className="object-cover w-full h-full"
               width={480}
               height={480} 
                />
