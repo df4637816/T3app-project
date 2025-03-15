@@ -2,6 +2,7 @@
 import Image from "next/image";
 import { SignedIn, SignedOut } from "@clerk/nextjs";
 import { getMyImages } from "~/server/db/queries";
+import Link from "next/link";
 
 
 
@@ -13,21 +14,24 @@ async function Images(){
  
    return(
     <div className="flex flex-wrap justify-center gap-4">
-      
-      {
-        images.map((image)=>(
-            <div className="flex flex-col w-[250px] h-[250px] " key={image.id}>
-              <Image  priority={true} src={image.url} 
-              alt={image.name} 
-              className="object-cover w-full h-full"
-              width={480}
-              height={480} 
-               />
-              <div>{image.id}.jpg</div>
-            </div>
-        ))
-      }
+  {images.map((image) => (
+    <div className="flex flex-col w-48" key={image.id}>
+      <Link href={`/photos/${image.id}`}>
+        <div className="h-64 w-52  overflow-hidden">
+          <Image
+            priority={true}
+            src={image.url}
+            alt={image.name}
+            className="object-cover mx-5 w-full h-full"
+            width={208}
+            height={256}
+          />
+        </div>
+      </Link>
+      <div>{image.id}.jpg</div>
     </div>
+  ))}
+</div>
    )
 }
 
