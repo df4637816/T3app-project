@@ -82,7 +82,7 @@ export default function PhotoDescription({
                     disabled={isSaving}
                 />
             ) : (
-                <p className="text-gray-700 whitespace-pre-wrap min-h-[60px]">
+                <p className="text-white whitespace-pre-wrap min-h-[60px]">
                     {description || "暂無說明，點擊並編輯"}
                 </p>
             )}

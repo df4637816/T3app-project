@@ -13,7 +13,8 @@
 - [X] 上傳圖片
 - [X] "taint (server-only)
 - [X] Use Next/Image component
-- [] error management
+- [X] edit description area and button
+- [X] error management
 - [] routing/圖片頁面
 - [] delete button
 - [] Analytics(posthog)
