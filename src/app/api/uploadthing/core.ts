@@ -1,5 +1,5 @@
 import { auth } from "@clerk/nextjs/server";
-import { createUploadthing, type FileRouter } from "uploadthing/next-legacy";
+import { createUploadthing, type FileRouter } from "uploadthing/server";
 import { UploadThingError } from "uploadthing/server";
 import { db } from "~/server/db";
 import { images } from "~/server/db/schema";
