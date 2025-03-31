@@ -3,6 +3,7 @@
 import { useState, useCallback, useEffect } from "react";
 import { useUploadThing } from "~/utils/uploadthing";
 import { Loader2, CheckCircle2, AlertCircle, RefreshCw } from "lucide-react";
+import { toast } from "sonner";
 
 type UploadStatus = "idle" | "uploading" | "success" | "error";
 
@@ -46,7 +47,12 @@ export default function CustomUploadButton({
   }, [autoReset, resetTimer, resetUploader]);
   
   // 使用 useUploadThing hook
-  const { startUpload, isUploading, routeConfig } = useUploadThing(endpoint, {
+  const { startUpload, isUploading } = useUploadThing(endpoint, {
+    onUploadBegin(){
+        toast("Uploading...."
+
+        )
+    },
     onClientUploadComplete: (res) => {
       setStatus("success");
       const urls = res?.map((r) => r.url) || [];
@@ -62,7 +68,7 @@ export default function CustomUploadButton({
   // 從 routeConfig 獲取允許的檔案類型
   // eslint-disable-next-line 
   const fileTypes = ["jpg", "png", "gif", "pdf"]; // 手動設定允許的檔案類型
-const maxFileSize = "4MB"; // 手動設定最大檔案大小
+const maxFileSize = 4; // 手動設定最大檔案大小
 
   
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {

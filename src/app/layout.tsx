@@ -8,6 +8,7 @@ import Topnav from "./_components/topnav";
 import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
 import { extractRouterConfig } from "uploadthing/server";
 import { ourFileRouter } from "./api/uploadthing/core";
+import { Toaster } from "~/components/ui/toaster";
 
 
 export const metadata: Metadata = {
@@ -25,12 +26,13 @@ export default function RootLayout({
   return (
     <ClerkProvider>
     <html lang="en" >
-      <body className={`${GeistSans.variable} flex flex-col gap-4`}>
+      <body className={`${GeistSans.variable} flex flex-col gap-4 dark`}>
       <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
         <Topnav/>
-        {children}
+        <main className="overflow-y-scroll dark">{children}</main>
         {modal}
         <div id="modal-root" />
+        <Toaster />
         </body>
     </html>
     </ClerkProvider>

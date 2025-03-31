@@ -15,7 +15,8 @@
 - [X] Use Next/Image component
 - [X] edit description area and button
 - [X] error management
-- [] routing/圖片頁面
+- [X] routing/圖片頁面
+- [X] Udate upload button to be less cringe
 - [] delete button
 - [] Analytics(posthog)
 - [] Ratelimiting(upstash)
