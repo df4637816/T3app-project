@@ -16,7 +16,7 @@ export default function Topnav() {
                 </SignedOut>
                 <SignedIn>
                 <CustomUploadButton 
-                endpoint='imageUploader' 
+                endpoint='imageUploader'
                 onUploadComplete={() => {
                     router.refresh();
                 }}

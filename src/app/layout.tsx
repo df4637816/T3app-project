@@ -1,4 +1,4 @@
-import "~/styles/globals.css";
+import "../styles/globals.css";
 import "@uploadthing/react/styles.css";
 
 import { ClerkProvider } from '@clerk/nextjs'
@@ -8,7 +8,7 @@ import Topnav from "./_components/topnav";
 import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
 import { extractRouterConfig } from "uploadthing/server";
 import { ourFileRouter } from "./api/uploadthing/core";
-import { Toaster } from "~/components/ui/toaster";
+import { Toaster } from "~/components/ui/sonner";
 
 
 export const metadata: Metadata = {
@@ -26,10 +26,10 @@ export default function RootLayout({
   return (
     <ClerkProvider>
     <html lang="en" >
-      <body className={`${GeistSans.variable} flex flex-col gap-4 dark`}>
+      <body className={`${GeistSans.variable} dark`}>
       <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
         <Topnav/>
-        <main className="overflow-y-scroll dark">{children}</main>
+        <main className="overflow-y-scroll h-screen dark">{children}</main>
         {modal}
         <div id="modal-root" />
         <Toaster />

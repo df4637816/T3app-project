@@ -3,12 +3,6 @@
 @tailwind utilities;
 
 
-body{
-    @apply bg-black text-white;
-}
-
-
-
 
 
 @layer base {

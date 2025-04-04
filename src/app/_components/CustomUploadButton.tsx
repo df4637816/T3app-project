@@ -49,9 +49,10 @@ export default function CustomUploadButton({
   // 使用 useUploadThing hook
   const { startUpload, isUploading } = useUploadThing(endpoint, {
     onUploadBegin(){
-        toast("Uploading...."
-
-        )
+        toast("Uploading....",{
+            icon: <Loader2 className="mr-2 h-4 w-4 animate-spin" />,
+            duration: 3000,
+            className: "bg-background border-border border text-foreground",})
     },
     onClientUploadComplete: (res) => {
       setStatus("success");
@@ -67,7 +68,7 @@ export default function CustomUploadButton({
   });
   // 從 routeConfig 獲取允許的檔案類型
   // eslint-disable-next-line 
-  const fileTypes = ["jpg", "png", "gif", "pdf"]; // 手動設定允許的檔案類型
+const fileTypes = ["jpg", "png", "gif"]; // 手動設定允許的檔案類型
 const maxFileSize = 4; // 手動設定最大檔案大小
 
   
