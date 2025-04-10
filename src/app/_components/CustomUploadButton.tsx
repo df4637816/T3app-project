@@ -48,7 +48,7 @@ export default function CustomUploadButton({
   
   // 使用 useUploadThing hook
   const { startUpload, isUploading } = useUploadThing(endpoint, {
-    onUploadBegin(){
+    onUploadBegin:()=>{
         toast("Uploading....",{
             icon: <Loader2 className="mr-2 h-4 w-4 animate-spin" />,
             duration: 3000,
@@ -56,6 +56,11 @@ export default function CustomUploadButton({
     },
     onClientUploadComplete: (res) => {
       setStatus("success");
+      toast("Uploaded successfully",{
+        icon: <CheckCircle2 className="mr-2 h-4 w-4 animate-spin" />,
+        duration: 3000,
+        className: "bg-background border-border border text-foreground",
+      })
       const urls = res?.map((r) => r.url) || [];
       onUploadComplete?.(urls);
       handleAutoReset(resetDelay);

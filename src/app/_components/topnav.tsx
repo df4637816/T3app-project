@@ -2,7 +2,7 @@
 import {SignInButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
 import { useRouter } from 'next/navigation';
 
-//import { UploadButton } from '~/utils/uploadthing'
+
 import CustomUploadButton from './CustomUploadButton';
 
 export default function Topnav() {
@@ -15,8 +15,8 @@ export default function Topnav() {
                 <SignInButton />
                 </SignedOut>
                 <SignedIn>
-                <CustomUploadButton 
-                endpoint='imageUploader'
+                <CustomUploadButton
+                 endpoint='imageUploader'
                 onUploadComplete={() => {
                     router.refresh();
                 }}
