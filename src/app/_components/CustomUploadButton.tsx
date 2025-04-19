@@ -49,15 +49,15 @@ export default function CustomUploadButton({
   // 使用 useUploadThing hook
   const { startUpload, isUploading } = useUploadThing(endpoint, {
     onUploadBegin:()=>{
-        toast("Uploading....",{
+        toast("上傳中...",{
             icon: <Loader2 className="mr-2 h-4 w-4 animate-spin" />,
             duration: 3000,
             className: "bg-background border-border border text-foreground",})
     },
     onClientUploadComplete: (res) => {
       setStatus("success");
-      toast("Uploaded successfully",{
-        icon: <CheckCircle2 className="mr-2 h-4 w-4 animate-spin" />,
+      toast("上傳成功!",{
+        icon: <CheckCircle2 className="mr-2 h-4 w-4 text-green-500" />,
         duration: 3000,
         className: "bg-background border-border border text-foreground",
       })
@@ -67,6 +67,11 @@ export default function CustomUploadButton({
     },
     onUploadError: (error) => {
       setStatus("error");
+      toast(error.message || "上傳失敗",{
+        icon: <AlertCircle className="mr-2 h-4 w-4 text-red-500" />,
+        duration: 4000,
+        className: "bg-background border-border border text-foreground",
+      })
       setErrorMessage(error.message || "上傳失敗");
       handleAutoReset(resetDelay + 1000);
     },
@@ -178,4 +183,4 @@ const maxFileSize = 4; // 手動設定最大檔案大小
       </div>
     </div>
   );
-} 
+}

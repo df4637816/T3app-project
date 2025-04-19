@@ -19,10 +19,11 @@ async function Images(){
       <Link href={`/photos/${image.id}`}>
         <div className="h-64 w-52  overflow-hidden">
           <Image
-            priority={true}
+            priority={false}
+            loading="lazy"
             src={image.url}
             alt={image.name}
-            className="object-cover mx-5 w-full h-full"
+            className="object-cover mx-5 w-full h-full aspect-auto"
             width={208}
             height={256}
           />

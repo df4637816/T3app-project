@@ -9,6 +9,7 @@ import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
 import { extractRouterConfig } from "uploadthing/server";
 import { ourFileRouter } from "./api/uploadthing/core";
 import { Toaster } from "~/components/ui/sonner";
+import { PostHogProvider} from "./_analytics/providers";
 
 
 export const metadata: Metadata = {
@@ -25,16 +26,23 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode,modal:React.ReactNode }>) {
   return (
     <ClerkProvider>
+      
     <html lang="en" >
       <body className={`${GeistSans.variable} dark`}>
+      
       <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
+     
         <Topnav/>
+        
         <main className="overflow-y-scroll h-screen dark">{children}</main>
+       
         {modal}
         <div id="modal-root" />
         <Toaster />
+        
         </body>
     </html>
+    
     </ClerkProvider>
   );
 }
