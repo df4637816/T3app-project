@@ -2,8 +2,7 @@ import "server-only";
 import { db } from ".";
 import { auth } from "@clerk/nextjs/server";
 import { images } from "./schema";
-import { eq } from "drizzle-orm";
-
+import { eq, and } from "drizzle-orm";
 
 export async function getMyImages(){
      const {userId} = await auth();
@@ -35,4 +34,16 @@ export async function updateImageDescription(id: number, description: string){
     if(!userId) throw new Error("Unauthorized");
 
     await db.update(images).set({description}).where(eq(images.id,id));
+}
+
+export async function deleteImage(id: number) {
+    const { userId } = await auth();
+    if (!userId) throw new Error("Unauthorized");
+
+    await db.delete(images).where(
+        and(
+            eq(images.id, id),
+            eq(images.userId, userId)
+        )
+    );
 }
