@@ -18,5 +18,6 @@
 - [X] routing/圖片頁面
 - [X] Udate upload button to be less cringe
 - [X] delete button
+- [X] search bar找尋相關照片(openAI辨識圖片)
 - [] Analytics(posthog)
 - [] Ratelimiting(upstash)
