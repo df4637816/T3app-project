@@ -4,6 +4,7 @@ import { useState, useCallback, useEffect } from "react";
 import { useUploadThing } from "~/utils/uploadthing";
 import { Loader2, CheckCircle2, AlertCircle, RefreshCw } from "lucide-react";
 import { toast } from "sonner";
+import { trackPhotoUpload } from "~/utils/analytics";
 
 type UploadStatus = "idle" | "uploading" | "success" | "error";
 
@@ -62,6 +63,9 @@ export default function CustomUploadButton({
         className: "bg-background border-border border text-foreground",
       })
       const urls = res?.map((r) => r.url) || [];
+      if (res?.[0]) {
+        trackPhotoUpload(res[0].key, res[0].url);
+      }
       onUploadComplete?.(urls);
       handleAutoReset(resetDelay);
     },

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { trackDescriptionUpdate } from "~/utils/analytics";
 
 export default function PhotoDescription({ 
     photoId, 
@@ -19,7 +20,6 @@ export default function PhotoDescription({
         setIsSaving(true);
         
         try {
-            // 调用API保存描述文字
             const response = await fetch(`/api/photos/${photoId}/description`, {
                 method: 'POST',
                 headers: {
@@ -32,8 +32,9 @@ export default function PhotoDescription({
                 throw new Error('Failed to save description');
             }
             
+            trackDescriptionUpdate(photoId.toString());
             setIsEditing(false);
-            router.refresh(); // 刷新页面数据
+            router.refresh();
         } catch (error) {
             console.error('Error saving description:', error);
             alert('保存失败，请重试');

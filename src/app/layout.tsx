@@ -9,8 +9,7 @@ import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
 import { extractRouterConfig } from "uploadthing/server";
 import { ourFileRouter } from "./api/uploadthing/core";
 import { Toaster } from "~/components/ui/sonner";
-// import { PostHogProvider} from "./_analytics/providers";
-
+import PostHogClientProvider from "./_analytics/providers";
 
 export const metadata: Metadata = {
   metadataBase: new URL("http://localhost:3000"),
@@ -22,29 +21,29 @@ export const metadata: Metadata = {
   icons: { icon: "/favicon.ico" }
 };
 
-
-
 export default function RootLayout({
   children,
   modal,
-}: Readonly<{ children: React.ReactNode,modal:React.ReactNode }>) {
+}: Readonly<{ children: React.ReactNode, modal: React.ReactNode }>) {
   return (
     <ClerkProvider>
       <html lang="en">
         <body className={`${GeistSans.variable} min-h-screen bg-gradient-to-b from-gray-900 to-gray-800`}>
-          <div className="relative">
-            <div className="fixed inset-0 bg-[url(/grid.svg)] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]" />
+          <PostHogClientProvider isProduction={process.env.NODE_ENV === 'production'}>
             <div className="relative">
-              <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
-              <Topnav />
-              <main className="container mx-auto px-4 py-8 overflow-y-auto min-h-screen">
-                {children}
-              </main>
-              {modal}
-              <div id="modal-root" />
-              <Toaster position="top-center" />
+              <div className="fixed inset-0 bg-[url(/grid.svg)] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]" />
+              <div className="relative">
+                <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
+                <Topnav />
+                <main className="container mx-auto px-4 py-8 overflow-y-auto min-h-screen">
+                  {children}
+                </main>
+                {modal}
+                <div id="modal-root" />
+                <Toaster position="top-center" />
+              </div>
             </div>
-          </div>
+          </PostHogClientProvider>
         </body>
       </html>
     </ClerkProvider>

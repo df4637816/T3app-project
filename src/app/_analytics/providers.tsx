@@ -1,60 +1,26 @@
 // app/providers.tsx
+
 'use client'
 
-import { usePathname, useSearchParams } from "next/navigation"
-import { useEffect, Suspense } from "react"
-import { usePostHog } from 'posthog-js/react'
-
+import { useEffect } from 'react'
 import posthog from 'posthog-js'
-import { PostHogProvider as PHProvider } from 'posthog-js/react'
+import { PostHogProvider } from 'posthog-js/react'
 
+const POSTHOG_KEY = process.env.NEXT_PUBLIC_POSTHOG_KEY
+const POSTHOG_HOST = process.env.NEXT_PUBLIC_POSTHOG_HOST
 
-export function PostHogProvider({ children }: { children: React.ReactNode }) {
+export default function PostHogClientProvider({ children, isProduction }: { children: React.ReactNode, isProduction: boolean }) {
   useEffect(() => {
-    posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY! , {
-      api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST,
-      person_profiles: 'identified_only', // or 'always' to create profiles for anonymous users as well
-      capture_pageview: false, // Disable automatic pageview capture, as we capture manually
-      capture_pageleave: true, // Disable automatic pageleave capture
-    })
-  }, [])
-
-  return (
-    <PHProvider client={posthog}>
-      <SuspendedPostHogPageView />
-      {children}
-    </PHProvider>
-  )
-}
-
-function PostHogPageView() {
-  const pathname = usePathname()
-  const searchParams = useSearchParams()
-  const posthog = usePostHog()
-
-  // Track pageviews
-  useEffect(() => {
-    if (pathname && posthog) {
-      let url = window.origin + pathname
-      if (searchParams.toString()) {
-        url = url + "?" + searchParams.toString();
-      }
-
-      posthog.capture('$pageview', { '$current_url': url })
+    if (isProduction && POSTHOG_KEY && POSTHOG_HOST) {
+      posthog.init(POSTHOG_KEY, {
+        api_host: POSTHOG_HOST,
+        person_profiles: 'identified_only',
+        capture_pageview: false,
+        capture_pageleave: true,
+      })
     }
-  }, [pathname, searchParams, posthog])
+  }, [isProduction])
 
-  return null
+  if (!isProduction) return children
+  return <PostHogProvider client={posthog}>{children}</PostHogProvider>
 }
-
-// Wrap PostHogPageView in Suspense to avoid the useSearchParams usage above
-// from de-opting the whole app into client-side rendering
-// See: https://nextjs.org/docs/messages/deopted-into-client-rendering
-function SuspendedPostHogPageView() {
-  return (
-    <Suspense fallback={null}>
-      <PostHogPageView />
-    </Suspense>
-  )
-}
-

@@ -17,6 +17,6 @@
 - [X] error management
 - [X] routing/圖片頁面
 - [X] Udate upload button to be less cringe
-- [] delete button
+- [X] delete button
 - [] Analytics(posthog)
 - [] Ratelimiting(upstash)

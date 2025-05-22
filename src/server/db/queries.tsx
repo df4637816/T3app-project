@@ -2,7 +2,7 @@ import "server-only";
 import { db } from ".";
 import { auth } from "@clerk/nextjs/server";
 import { images } from "./schema";
-import { eq, and } from "drizzle-orm";
+import { eq, and, ilike, or, sql } from "drizzle-orm";
 
 export async function getMyImages(){
      const {userId} = await auth();
@@ -46,4 +46,25 @@ export async function deleteImage(id: number) {
             eq(images.userId, userId)
         )
     );
+}
+
+export async function searchImages(query: string) {
+    const { userId } = await auth();
+    if (!userId) throw new Error("Unauthorized");
+
+    const searchQuery = `%${query}%`;
+    const results = await db.query.images.findMany({
+        where: (image, { and, or, ilike, sql }) => 
+            and(
+                eq(image.userId, userId),
+                or(
+                    ilike(image.name, searchQuery),
+                    ilike(image.description ?? '', searchQuery),
+                    sql`${image.contentTags}::text ILIKE ${searchQuery}`
+                )
+            ),
+        orderBy: (image, { desc }) => desc(image.createdAt),
+    });
+
+    return results;
 }

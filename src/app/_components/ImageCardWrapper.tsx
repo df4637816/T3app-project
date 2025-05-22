@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation';
 import ImageCard from './ImageCard';
 import { toast } from 'sonner';
+import { trackPhotoDelete } from '~/utils/analytics';
 
 interface ImageCardWrapperProps {
   image: {
@@ -27,6 +28,7 @@ export default function ImageCardWrapper({ image, currentUserId }: ImageCardWrap
       
       if (!response.ok) throw new Error('Failed to delete image');
       
+      trackPhotoDelete(image.id);
       toast.success('照片已成功刪除');
       router.refresh();
     } catch (error) {

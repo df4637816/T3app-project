@@ -3,41 +3,35 @@ import { createUploadthing, type FileRouter } from "uploadthing/server";
 import { UploadThingError } from "uploadthing/server";
 import { db } from "~/server/db";
 import { images } from "~/server/db/schema";
+import { analyzeImage } from "~/server/services/vision";
 
 const f = createUploadthing();
 
-
-
-// FileRouter for your app, can contain multiple FileRoutes
 export const ourFileRouter = {
-  // Define as many FileRoutes as you like, each with a unique routeSlug
-  imageUploader: f({ image: { maxFileSize: "4MB" , maxFileCount: 40 } })
-    // Set permissions and file types for this FileRoute
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  imageUploader: f({ image: { maxFileSize: "4MB", maxFileCount: 40 } })
     .middleware(async ({ req }) => {
-      // This code runs on your server before upload
       const user = await auth();
-
-      // If you throw, the user will not be able to upload
-      // eslint-disable-next-line @typescript-eslint/only-throw-error
-      if (!user.userId) throw new UploadThingError("Unauthorized");
-
-      // Whatever is returned here is accessible in onUploadComplete as `metadata`
+      if (!user.userId) throw new Error("Unauthorized");
       return { userId: user.userId };
     })
     .onUploadComplete(async ({ metadata, file }) => {
-      // This code RUNS ON YOUR SERVER after upload
-      console.log("Upload complete for userId:", metadata.userId);
+      try {
+        // 分析圖片內容
+        const analysis = await analyzeImage(file.url);
+        
+        // 儲存圖片資訊到資料庫
+        await db.insert(images).values({
+          userId: metadata.userId,
+          name: file.name,
+          url: file.url,
+          contentTags: JSON.stringify(analysis),
+        });
 
-      await db.insert(images).values({
-        userId: metadata.userId,
-        name: file.name,
-        url: file.ufsUrl,
-      
-      })
-
-      // !!! Whatever is returned here is sent to the clientside `onClientUploadComplete` callback
-      return { uploadedBy: metadata.userId };
+        return { uploadedBy: metadata.userId };
+      } catch (error) {
+        console.error("Error processing upload:", error);
+        throw new Error(`UploadThingError: Failed to process upload: ${error instanceof Error ? error.message : String(error)}`);
+      }
     }),
 } satisfies FileRouter;
 
