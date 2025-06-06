@@ -18,7 +18,7 @@ export async function analyzeImage(imageUrl: string): Promise<ImageAnalysisResul
         {
           role: "user",
           content: [
-            { type: "text", text: "描述這張圖片的內容，並列出 5-10 個關鍵標籤，使用繁體中文回答。格式為 JSON，包含 description 和 tags 兩個欄位。" },
+            { type: "text", text: `請只根據這張圖片本身的畫面內容進行分析，不要根據任何外部描述或假設。請詳細辨識圖片中實際可見的元素，特別注意是否有街道、動物、商店、店名、招牌、建築物等資訊，若有請明確指出並描述。請列出 5-10 個最具代表性的繁體中文關鍵標籤，標籤內容可包含地點、動物、商店名稱、品牌、街道名稱等。請以 JSON 格式回答，包含 description（圖片描述）和 tags（標籤陣列）兩個欄位。` },
             { type: "image_url", image_url: { url: imageUrl } },
           ],
         },

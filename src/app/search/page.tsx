@@ -48,9 +48,10 @@ async function SearchResults({ query }: { query: string }) {
 export default async function SearchPage({
   searchParams,
 }: {
-  searchParams: { q: string };
+  searchParams: Promise<{ q: string }>;
 }) {
-  const query = searchParams.q ?? "";
+  const params = await searchParams;
+  const query = params.q ?? "";
 
   return (
     <main className="w-full">
